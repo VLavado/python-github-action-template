@@ -21,9 +21,9 @@ jobs:
           pip install -r requirements.txt
           
       - name: execute py script # run main.py
-        env: # run the main.py script with an enviroment variable that stores a secret. The name of the variable is SOME_SECRET
-          SOME_SECRET: ${{ secrets.SOME_SECRET }}
-        run: python main.py
+        env: # run the main.py script with an environment variable that stores a secret. The name of the variable is SOME_SECRET
+          SOME_SECRET: ${{ secrets.SOME_SECRET }} # You need to set up an environment secret in Github repo that has the same name.
+        run: python main.py # Name: SOME_CODE, Value: 1234 (this could be an api token for example)
           
       - name: commit files
         run: |
@@ -35,5 +35,5 @@ jobs:
       - name: push changes
         uses: ad-m/github-push-action@v0.6.0 # Push changes with the existing github push action
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }} #This token is automatically created but you need it, if you push changes
           branch: main 

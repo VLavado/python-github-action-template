@@ -1,14 +1,12 @@
 name: run main.py
 
-on:
-  schedule:
-    - cron: '0 0 * * 1' # At 00:00 on Monday
+on: push
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-
+      # all actions are available in https://github.com/actions
       - name: checkout repo content
         uses: actions/checkout@v2 # checkout the repository content to github runner
 
@@ -23,7 +21,7 @@ jobs:
           pip install -r requirements.txt
           
       - name: execute py script # run main.py
-        env:
+        env: # run the main.py script with an enviroment variable that stores a secret. The name of the variable is SOME_SECRET
           SOME_SECRET: ${{ secrets.SOME_SECRET }}
         run: python main.py
           
@@ -35,7 +33,7 @@ jobs:
           git diff-index --quiet HEAD || (git commit -a -m "updated logs" --allow-empty)
           
       - name: push changes
-        uses: ad-m/github-push-action@v0.6.0
+        uses: ad-m/github-push-action@v0.6.0 # Push changes with the existing github push action
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main 
